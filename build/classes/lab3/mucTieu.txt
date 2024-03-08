@@ -1,0 +1,7 @@
+ LAB 3: UPLOAD, BEANUTILS, COOKIE, EMAIL
+  MỤC TIÊU: Kết thúc bài thực hành này bạn có khả năng
+    Upload file
+    Sử dụng BeanUtils 
+    Sử dụng Cookie
+    Gửi email thông qua gmail
+   

@@ -1,0 +1,22 @@
+MỤC TIÊU: Kết thúc bài thực hành này bạn có khả năng 
+ Tổ chức giao diện với JSP 
+ Truy xuất và hiển thị với EL 
+ Lập trình giao diện với JSTL 
+ Định dạng số và thời gian 	
+
+trong lúc cấu hình jstl sẽ gặp 1 lỗi  :(tham khảo lỗi ở đây nếu gặp chúng ) 	
+https://stackoverflow.com/questions/8021370/java-lang-noclassdeffounderror-javax-servlet-jsp-tagext-taglibraryvalidator
+
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>: 
+Đây là một chỉ định để sử dụng thư viện JSTL (JavaServer Pages Standard Tag Library) với tiền tố c. 
+Thư viện này được sử dụng để thực hiện các thao tác logic trong trang JSP.
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>: 
+Tương tự như trên, đây là chỉ định để sử dụng thư viện JSTL với tiền tố fmt. 
+Thư viện này được sử dụng để định dạng dữ liệu trong trang JSP.
+
+
+ <fmt:formatNumber> được sử dụng để định dạng giá trị số thành chuỗi.
+ 
+ có thể sử dụng java code trong jsp - nhưng làm thế thì có thể logic xử lí của bạn trở nên phức tạp hơn 

@@ -1,0 +1,9 @@
+ LAB 3: UPLOAD, BEANUTILS, COOKIE, EMAIL
+  MỤC TIÊU: Kết thúc bài thực hành này bạn có khả năng
+    Upload file
+    Sử dụng BeanUtils 
+    Sử dụng Cookie
+    Gửi email thông qua gmail
+   các lớp hõ trợ liên quan đến cookie & gửi mail
+   
+   THIẾT LẬP MẬT KHẨU ỨNG DỤNG : https://vsoft.com.vn/Blog/2021-huong-dan-lay-mat-khau-ung-dung-mail-de-gui-mail-smtp-36.html

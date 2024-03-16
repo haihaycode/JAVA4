@@ -13,6 +13,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/lab4/bai5")
 public class ListServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<Item> items = new ArrayList<>(Arrays.asList(new Item("iPhone 12",

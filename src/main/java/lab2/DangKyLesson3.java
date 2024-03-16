@@ -11,6 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/lab2/bai3")
 public class DangKyLesson3 extends HttpServlet{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.getRequestDispatcher("/Views/lab2/Lesson3.jsp").forward(req, resp);

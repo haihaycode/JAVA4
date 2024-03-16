@@ -10,6 +10,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet({ "/lab2/bai1", "/lab2/bai1/chu-vi", "/lab2/bai1/dien-tich" })
 public class TamGiacServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.getRequestDispatcher("/Views/lab2/tamGiac.jsp").forward(req, resp);

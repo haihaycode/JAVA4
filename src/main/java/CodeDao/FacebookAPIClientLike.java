@@ -5,66 +5,98 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class FacebookAPIClientLike {
+	static String userAccessToken = "EAABwzLixnjYBOZCjZC0AgxaNAFvUXvMXqxMG3e5yBsK2dtwOzlZCCXIOE21JNt7CVVHuTuZCnia5PsxfWd2ZBauLsMYh51lfZBr2bPo0LiAB5ZBXbahZA1hfHZBpbCGkH4sR1YChK9cyJUNHSAel2pGxD5NclTSy7QZCA7VIb6VTHkYYFZArOZA1ZAYHbkJWpa6ZAfr0cQhZAOaZBmlgw70ZC";
     public static void main(String[] args) {
-        // Access token của bạn
-        String accessToken = "EAABwzLixnjYBO803X9okmF1pyW7tVAEkKZAuA4VRftB9PJh6OuDocjOdnQ43XsPxS2wHUiJA3ji6xS4BRd0zH4bYxr85zJdyUrn1wHWUY55SwU5siIhErSHO59e3Sud8EvsvXZADtsZC6IJxYhZActykpUuqMdxWV8NgtzTP782ZB3qtuflGOQVwJRun7P8n09nLb2UDWGxbV";
-
-        // Tạo ra 3 page
-        for (int i = 0; i < 3; i++) {
-            createPage(accessToken, "Haicon gà" + (i + 1), "1006597106868677", "Community",
-                    "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/428610501_1127554695335056_8417082669027061313_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=RtUm2tnSpkYAX8eRAQY&_nc_ht=scontent.fsgn2-10.fna&oh=00_AfA6lKj9XodfWKtmBJK_tWDdJGfegMa1dIJIJ21ieDQuXg&oe=65EE29D6",
-                    "https://example.com", "0349748529", "Đà Nẵng");
-        }
-    }
-
-    public static void createPage(String accessToken, String name, String category, String about, String picture,
-            String website, String phone, String location) {
-        // URL endpoint để tạo page
-        String pageCreationUrl = "https://graph.facebook.com/me/accounts";
-
-        // Dữ liệu JSON để tạo page
-        JSONObject pageData = new JSONObject();
-        pageData.put("name", name);
-        pageData.put("category", category);
-        pageData.put("about", about);
-        pageData.put("picture", picture);
-        pageData.put("website", website);
-        pageData.put("phone", phone);
-        pageData.put("location", location);
-        pageData.put("access_token", accessToken);
+        // Access token của người dùng
+     
+        
+        // URL endpoint để lấy danh sách các trang vị trí mà người dùng quản lý
+        String managedPlacesUrl = "https://graph.facebook.com/me/places?access_token=" + userAccessToken;
 
         // Tạo một đối tượng HttpClient
         HttpClient httpClient = HttpClients.createDefault();
 
-        // Tạo một yêu cầu POST để tạo page
-        HttpPost httpPost = new HttpPost(pageCreationUrl);
-        httpPost.setEntity(new StringEntity(pageData.toString(), "UTF-8"));
-        httpPost.setHeader("Content-Type", "application/json");
-
         try {
-            // Thực hiện yêu cầu và nhận phản hồi
-            HttpResponse response = httpClient.execute(httpPost);
+            // Gửi yêu cầu GET để lấy danh sách các trang vị trí mà người dùng quản lý
+            HttpResponse response = httpClient.execute(new HttpGet(managedPlacesUrl));
 
-            // Kiểm tra mã trạng thái của phản hồi khi tạo page
+            // Kiểm tra mã trạng thái của phản hồi
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200) {
-                System.out.println("Page đã được tạo thành công!");
-            } else {
-                System.out.println("Tạo page không thành công! Mã lỗi: " + statusCode);
-            }
+                // Đọc nội dung phản hồi
+                String responseBody = EntityUtils.toString(response.getEntity());
 
-            // Đọc nội dung phản hồi
-            String responseBody = EntityUtils.toString(response.getEntity());
-            System.out.println("Nội dung phản hồi: " + responseBody);
+                // Chuyển đổi nội dung phản hồi thành đối tượng JSON
+                JSONObject jsonResponse = new JSONObject(responseBody);
+
+                // Lấy danh sách các trang vị trí mà người dùng quản lý
+                JSONArray managedPlaces = jsonResponse.getJSONArray("data");
+
+                // Duyệt qua danh sách các trang vị trí và tạo page mới cho mỗi trang vị trí
+                for (int i = 0; i < managedPlaces.length(); i++) {
+                    JSONObject place = managedPlaces.getJSONObject(i);
+                    // Lấy thông tin vị trí của trang vị trí
+                    String placeName = place.getString("name");
+                    String placeLocation = place.getJSONObject("location").getString("city"); // Ví dụ: lấy thành phố
+                    // Gọi hàm để tạo page mới với thông tin vị trí
+                    createPageWithLocation(placeName, placeLocation);
+                }
+            } else {
+                System.out.println("Lỗi khi lấy danh sách trang vị trí quản lý! Mã lỗi: " + statusCode);
+            }
         } catch (ClientProtocolException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void createPageWithLocation(String placeName, String placeLocation) {
+        // Địa chỉ URL endpoint để tạo page
+        String pageCreationUrl = "https://graph.facebook.com/me/accounts";
+
+        // Các thông tin khác cần thiết để tạo page mới (tùy thuộc vào yêu cầu của Facebook API)
+        String pageCategory = "Local Business"; // Loại trang
+        String pageDescription = "This is a page for " + placeName + " in " + placeLocation; // Mô tả trang
+        
+        // Tạo JSON object chứa thông tin cần thiết để tạo page mới
+        JSONObject pageData = new JSONObject();
+        pageData.put("name", placeName);
+        pageData.put("category", pageCategory);
+        pageData.put("about", pageDescription);
+
+        // Tạo yêu cầu POST để tạo page
+        HttpPost httpPost = new HttpPost(pageCreationUrl);
+        httpPost.setHeader("Content-Type", "application/json");
+        httpPost.setHeader("Authorization", "Bearer " + userAccessToken);
+
+        try {
+            // Đặt nội dung của yêu cầu POST là thông tin JSON của page
+            StringEntity entity = new StringEntity(pageData.toString());
+            httpPost.setEntity(entity);
+
+            // Thực hiện yêu cầu POST và nhận phản hồi
+            HttpClient httpClient = HttpClients.createDefault();
+            HttpResponse response = httpClient.execute(httpPost);
+
+            // Kiểm tra mã trạng thái của phản hồi
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == 200) {
+                // Nếu thành công, in ra thông báo
+                System.out.println("Page mới đã được tạo cho " + placeName + " tại " + placeLocation);
+            } else {
+                // Nếu không thành công, in ra mã lỗi
+                System.out.println("Lỗi khi tạo page mới cho " + placeName + " tại " + placeLocation + ". Mã lỗi: " + statusCode);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

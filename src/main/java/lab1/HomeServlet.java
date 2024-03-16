@@ -10,6 +10,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/lab1/bai3")
 public class HomeServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	//BÀI 3 + 4
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	

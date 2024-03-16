@@ -18,6 +18,11 @@ import jakarta.servlet.http.Part;
 @WebServlet("/lab3/bai3")
 @MultipartConfig
 public class Lesson3 extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.getRequestDispatcher("/Views/lab3/Lesson3Form.jsp").forward(req, resp);

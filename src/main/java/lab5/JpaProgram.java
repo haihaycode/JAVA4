@@ -12,10 +12,10 @@ public class JpaProgram {
 //		create();
 //		update();
 //		delete();
-		findAll();
+//		findAll();
 //		findByRole(true);
 //		findByKeyWord("Hải");
-//		findOne("haipro1907", "Haipro19072");
+		findOne("haipro1907", "Haipro19072");
 //		int totalPages = 32 / 4; // Số lượng trang được tính dựa trên tổng số người dùng và kích thước mỗi trang : tính được =8
 //		int pageSize = 4; // Số lượng người dùng trên mỗi trang
 //		findPage(3, pageSize);//đang đứng ở trang 3 
@@ -136,7 +136,7 @@ public class JpaProgram {
 		}
 	}
 
-	public static void findOne(String id, String pass) {
+	public static String findOne(String id, String pass) {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("PolyOe");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		try {
@@ -146,8 +146,11 @@ public class JpaProgram {
 			query.setParameter("pass", pass);
 			User user = query.getSingleResult();
 			System.out.println(user.getFullname() + " - " + user.isAdmin());
+			
+			return "Đăng Nhập thành công";
 		} catch (Exception e) {
 			System.out.println("Lỗi truy vấn findOne()" + e.getMessage());
+			return "Đăng Nhập thất bại ! Sai tài khoản hoặc mật khẩu";
 		}
 	}
 

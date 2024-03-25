@@ -15,6 +15,10 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet({ "/user/index", "/user/edit/id/*", "/user/create", "/user/update", "/user/delete" })
 public class UsersServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	User user;
 
 	@Override
